@@ -44,3 +44,19 @@ fun String.nameToLogin(): String {
     }
     return working
 }
+
+fun String.removeRandomZeroes() = run {
+    var str = this.toString()
+    if (str.contains(".")) {
+        while (str.get(length - 1) == '0') {
+            str = str.substring(0, str.length - 1)
+        }
+        if (str[str.length - 1] == '.') {
+            str = str.substring(0, str.length - 1)
+        }
+    }
+    str
+}
+
+fun Int.pad(zeros: Int) = "%0${zeros}d".format(this)
+
