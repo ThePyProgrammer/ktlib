@@ -122,3 +122,16 @@ fun FloatArray.toVector() = run {
     Vector(get(0).toDouble(), get(1).toDouble(), get(2).toDouble())
 }
 
+
+fun <T, R> Collection<T>.fold(
+    initial: R,
+    combine: (acc: R, nextElement: T) -> R
+): R {
+    var accumulator: R = initial
+    for (element: T in this) {
+        accumulator = combine(accumulator, element)
+    }
+    return accumulator
+}
+
+
