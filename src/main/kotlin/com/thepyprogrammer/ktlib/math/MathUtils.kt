@@ -10,6 +10,33 @@ var PI = Math.PI
 var E = java.lang.Math.E
 
 
+operator fun Double.rangeTo(other: Double) = run {
+    val list = mutableListOf<Double>()
+    var start = this
+    when {
+        start < other -> {
+            while (start <= other) {
+                list.add(start)
+                start++
+            }
+        }
+        start > other -> {
+            while (start >= other) {
+                list.add(start)
+                start--
+            }
+
+        }
+        else -> {
+            list.add(start)
+        }
+    }
+    list
+}
+operator fun Double.rangeTo(other: Float) = rangeTo(other.toDouble())
+
+operator fun Double.rangeTo(other: Int) = rangeTo(other.toDouble())
+
 
 
 
