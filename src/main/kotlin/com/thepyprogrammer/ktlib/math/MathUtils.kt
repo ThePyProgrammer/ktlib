@@ -38,8 +38,6 @@ operator fun Double.rangeTo(other: Float) = rangeTo(other.toDouble())
 operator fun Double.rangeTo(other: Int) = rangeTo(other.toDouble())
 
 
-
-
 fun Float.round(dp: Int = 0) = run {
     when {
         dp <= 0 -> this.roundToInt().toFloat()
