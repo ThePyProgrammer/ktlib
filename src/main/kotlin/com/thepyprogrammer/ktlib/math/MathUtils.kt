@@ -1,7 +1,7 @@
 package com.thepyprogrammer.ktlib.math
 
-import com.thepyprogrammer.ktlib.array.each
 import com.thepyprogrammer.ktlib.math.types.Complex
+import com.thepyprogrammer.ktlib.math.types.StandardNotation
 import java.lang.Math.getExponent
 import java.util.*
 import kotlin.math.ln1p
@@ -9,8 +9,15 @@ import kotlin.math.sign
 import kotlin.math.roundToInt
 
 var PI = Math.PI
-var E = java.lang.Math.E
+var E = Math.E
 
+
+
+/**
+ * Buitlin Methods
+ */
+infix fun <T: Number> T.pow(other: Number): Double = toDouble().pow(other.toDouble())
+infix fun <T: Number> T.`**`(other: Number): Double = this pow other
 
 operator fun Double.rangeTo(other: Double) = run {
     val list = mutableListOf<Double>()
@@ -52,9 +59,7 @@ fun Float.round(dp: Int = 0) = run {
 fun Double.round(dp: Int = 0) = run {
     when {
         dp <= 0 -> this.roundToInt().toDouble()
-        else -> {
-            String.format("%.${dp}f", this).toDouble()
-        }
+        else -> String.format("%.${dp}f", this).toDouble()
     }
 }
 
@@ -68,6 +73,41 @@ infix operator fun Double.plus(other: Number) =
         is Short -> plus(other)
         else -> this
     }
+
+infix operator fun Double.minus(other: Number) =
+    when (other) {
+        is Byte -> minus(other)
+        is Double -> minus(other)
+        is Float -> minus(other)
+        is Int -> minus(other)
+        is Long -> minus(other)
+        is Short -> minus(other)
+        else -> this
+    }
+
+
+private fun deriveOrderOfMagnitude(number: Double): Int {
+    var comparer = number
+    var times = 0
+    while(comparer < 1.0) {
+        comparer *= 10
+        times -= 1
+    }
+    while(comparer > 1.0) {
+        comparer /= 10
+        times += 1
+    }
+    return times
+}
+
+val Number.orderOfMagnitude: Int
+    get() = deriveOrderOfMagnitude(this.toDouble())
+
+val Number.standardNotation: StandardNotation
+    get() = StandardNotation(this)
+
+fun <T: Number> T.roundToSF(sf: Int) = (standardNotation roundToSF sf).toDouble()
+
 
 
 fun sin(vararg angles: Double): DoubleArray {
@@ -409,7 +449,7 @@ fun max(values: Collection<Number>): Double {
     return maxn
 }
 
-fun fib(upperBound: Double): IntArray {
+fun fib(upperBound: Int): IntArray {
     var a = 0
     var b = 1
     var temp: Int
@@ -420,13 +460,18 @@ fun fib(upperBound: Double): IntArray {
         b += a
         a = temp
     }
-    val array = IntArray(arr.size)
-    for (i in 0 until arr.size) array[i] = arr[i]
-    return array
+    return arr.toTypedArray().toIntArray()
+
+
 }
 
 
-// Random
+
+
+
+/**
+ * Random Functions
+ */
 val random = Random()
 fun randInt() = random.nextInt()
 fun randInt(upperBound: Int) = random.nextInt(upperBound)
@@ -446,15 +491,13 @@ fun randFloat(lowerBound: Float, upperBound: Float, step: Float) = lowerBound + 
 fun randBoolean() = random.nextBoolean()
 
 
-
-
 /**
  * Convert Double Array to generic Complex Array
  */
-fun Array<Double>.toComplex(): Array<Complex> = each { Complex(it) }
+fun Array<Double>.toComplex(): Array<Complex> = map { Complex(it) }.toTypedArray()
 
 
 /**
  * Compute X * conj(X)
  */
-fun Array<Complex>.timesConj(): Array<Double> = each { it.timesConj }
+fun Array<Complex>.timesConj(): Array<Double> = map { it.timesConj }.toTypedArray()
