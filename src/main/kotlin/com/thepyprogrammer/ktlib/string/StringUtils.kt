@@ -60,3 +60,10 @@ fun String.removeRandomZeroes() = run {
 
 fun Int.pad(zeros: Int) = "%0${zeros}d".format(this)
 
+fun print(vararg args: Double, sep: String = " ", start: String = "", end: String = "") {
+    print(args.joinToString(separator = sep, prefix = start, postfix = end))
+}
+
+fun String.lines() = split("\n")
+
+fun String.join(iterable: Iterable<String> = mutableListOf(), prefix: String = "", postfix: String = "") = iterable.joinToString(this, prefix = prefix, postfix = postfix)
