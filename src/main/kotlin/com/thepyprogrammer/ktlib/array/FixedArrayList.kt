@@ -1,4 +1,4 @@
-package com.thepyprogrammer.gaitanalyzer.model.utils.array
+package com.thepyprogrammer.ktlib.array
 
 import java.util.*
 
